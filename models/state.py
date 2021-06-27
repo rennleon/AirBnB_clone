@@ -2,8 +2,9 @@
 """"
 This module defines State class
 """
+from models.base_model import BaseModel
 
 
-class State():
+class State(BaseModel):
     """ Defines all common attributes/methods State """
     name = ''
