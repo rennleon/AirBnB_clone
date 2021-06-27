@@ -2,14 +2,13 @@
 """" Definition of FileStorage class """
 
 import json
-from uuid import uuid4
-from datetime import datetime
 from os import path
+from models.base_model import BaseModel
 
 
 class FileStorage():
     """ FileStorage class """
-    __file_path = 'objects.json'
+    __file_path = 'file.json'
     __objects = dict()
 
     def all(self):
@@ -24,8 +23,13 @@ class FileStorage():
     def save(self):
         """ Serializes '__objects' to into JSON file (path: '__file_path') """
 
+        dict_objs = {
+            key: (FileStorage.__objects[key]).to_dict()
+            for key in FileStorage.__objects.keys()
+        }
+
         with open(FileStorage.__file_path, mode='w', encoding='utf-8') as file:
-            json.dump(FileStorage.__objects, file)
+            json.dump(dict_objs, file)
 
     def reload(self):
         """ Deserializes a JSON file to '__objects'
@@ -34,4 +38,8 @@ class FileStorage():
             return
 
         with open(FileStorage.__file_path, mode='r', encoding='utf-8') as file:
-            FileStorage.__objects = json.load(file)
+            loaded = json.load(file)
+            for obj_dict in loaded.values():
+                cls = obj_dict['__class__']
+                obj_instance = eval(cls)(**obj_dict)
+                self.new(obj_instance)
