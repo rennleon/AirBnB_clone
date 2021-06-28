@@ -85,8 +85,7 @@ class HBNBCommand(cmd.Cmd):
             for obj in objs_dict.values():
                 if not arg:
                     objs_list.append(obj.__str__())
-                    continue
-                if type(obj).__name__ == arg:
+                elif type(obj).__name__ == arg:
                     objs_list.append(obj.__str__())
             print(objs_list)
 
