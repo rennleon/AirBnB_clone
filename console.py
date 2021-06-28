@@ -77,16 +77,18 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """ Prints all string representation of all instances """
         objs_dict = storage.all()
-        if not arg:
-            for obj in objs_dict.values():
-                print(obj)
+
+        if arg and arg not in HBNBCommand.__valid_classes:
+            print('** class doesn\'t exist **')
         else:
-            if arg not in HBNBCommand.__valid_classes:
-                print('** class doesn\'t exist **')
-            else:
-                for obj in objs_dict.values():
-                    if type(obj).__name__ == arg:
-                        print(obj)
+            objs_list = []
+            for obj in objs_dict.values():
+                if not arg:
+                    objs_list.append(obj.__str__())
+                    continue
+                if type(obj).__name__ == arg:
+                    objs_list.append(obj.__str__())
+            print(objs_list)
 
     def do_update(self, arg):
         """ Updates an instance based on the class name and id
