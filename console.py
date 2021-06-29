@@ -30,6 +30,10 @@ class HBNBCommand(cmd.Cmd):
         'Review'
     ]
 
+    def emptyline(self):
+        """empty line + ENTER shouldn’t execute anything"""
+        pass
+
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
