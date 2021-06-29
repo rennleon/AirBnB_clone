@@ -127,11 +127,12 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        with open('file.json', mode='r', encoding='utf-8') as file:
-            dict_loaded = json.load(file)
+        if os.path.exists(self.file_path):
+            with open('file.json', mode='r', encoding='utf-8') as file:
+                dict_loaded = json.load(file)
 
-            self.assertIs(type(dict_loaded), dict)
-            self.assertNotIn(key, dict_loaded.keys())
+                self.assertIs(type(dict_loaded), dict)
+                self.assertNotIn(key, dict_loaded.keys())
 
         storage.save()
 
@@ -140,3 +141,15 @@ class TestFileStorage(unittest.TestCase):
 
             self.assertIs(type(dict_loaded), dict)
             self.assertIn(key, dict_loaded.keys())
+
+    def test_reload_method(self):
+        """ Test cases for 'reload' method """
+
+        prev_dict = storage.all()
+
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
+
+        storage.reload()
+
+        self.assertDictEqual(prev_dict, storage.all())
