@@ -42,14 +42,23 @@ class TestBaseModel(unittest.TestCase):
         regex = 'takes 1 positional argument but 2 were given'
         with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict(None)
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict([])
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict([1, 2, 3])
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict({})
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict({1, 2, 3})
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict(True)
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict(False)
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict(dict())
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict({'id': 123, 'created_at': datetime.now()})
+        with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict('Ranmod value')
 
     def test_save_method(self):
