@@ -126,18 +126,11 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        if os.path.exists('file.json'):
-            with open('file.json', mode='r', encoding='utf-8') as file:
-                dict_loaded = json.load(file)
+        with open('file.json', mode='r', encoding='utf-8') as file:
+            dict_loaded = json.load(file)
 
-                self.assertIs(type(dict_loaded), dict)
-                self.assertNotIn(key, dict_loaded.keys())
-        else:
-            regex = "No such file or directory: 'file.json'"
-            with self.assertRaisesRegex(FileNotFoundError, regex):
-                with open('file.json', mode='r', encoding='utf-8'):
-                    pass
-
+            self.assertIs(type(dict_loaded), dict)
+            self.assertNotIn(key, dict_loaded.keys())
 
         storage.save()
 
