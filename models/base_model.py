@@ -11,6 +11,7 @@ class BaseModel():
     """Defines all common attributes/methods for other classes"""
 
     def __init__(self, *args, **kwargs):
+        """ Init method for BaseModel """
         time_f = "%Y-%m-%dT%H:%M:%S.%f"
 
         if len(kwargs) is not 0:
@@ -28,6 +29,7 @@ class BaseModel():
             models.storage.new(self)
 
     def __str__(self):
+        """ Returns the string represetation of a BaseModel instance """
         return (
                 "[{}] ({}) {}"
                 .format(self.__class__.__name__,
