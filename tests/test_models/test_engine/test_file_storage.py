@@ -172,3 +172,26 @@ class TestFileStorage(unittest.TestCase):
         storage.reload()
 
         self.assertDictEqual(prev_dict, storage.all())
+
+    def test_reload_method_with_one_param(self):
+        """ Tests for reload method passing one param """
+        with self.assertRaises(TypeError):
+            storage.reload(None)
+        with self.assertRaises(TypeError):
+            storage.reload([])
+        with self.assertRaises(TypeError):
+            storage.reload([1, 2, 3])
+        with self.assertRaises(TypeError):
+            storage.reload({})
+        with self.assertRaises(TypeError):
+            storage.reload({1, 2, 3})
+        with self.assertRaises(TypeError):
+            storage.reload(True)
+        with self.assertRaises(TypeError):
+            storage.reload(False)
+        with self.assertRaises(TypeError):
+            storage.reload(dict())
+        with self.assertRaises(TypeError):
+            storage.reload({'id': 123})
+        with self.assertRaises(TypeError):
+            storage.reload('Ranmod value')
