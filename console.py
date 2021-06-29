@@ -30,6 +30,22 @@ class HBNBCommand(cmd.Cmd):
         'Review'
     ]
 
+    def default(self, line):
+        """ Method called on an input line when
+        the command prefix is not recognized """
+        classes = HBNBCommand.__valid_classes
+        actions = {
+            'all()': self.do_all
+        }
+
+        args = line.split('.')
+        if len(args) == 2 and \
+            args[0] in classes and \
+                args[1] in actions.keys():
+            return actions[args[1]](args[0])
+
+        return super().default(line)
+
     def emptyline(self):
         """empty line + ENTER shouldn’t execute anything"""
         pass
