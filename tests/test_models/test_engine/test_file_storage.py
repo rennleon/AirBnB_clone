@@ -141,9 +141,34 @@ class TestFileStorage(unittest.TestCase):
             self.assertIs(type(dict_loaded), dict)
             self.assertIn(key, dict_loaded.keys())
 
+    def test_save_method_with_one_param(self):
+        """ Test for 'save' method with one param """
+        regex = 'takes 1 positional argument but 2 were given'
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save(None)
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save([])
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save([1, 2, 3])
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save({})
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save({1, 2, 3})
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save(True)
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save(False)
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save(dict())
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save({'id': 123})
+        with self.assertRaisesRegex(TypeError, regex):
+            storage.save('Ranmod value')
+
     def test_reload_method(self):
         """ Test cases for 'reload' method """
         prev_dict = storage.all()
+
         storage.reload()
 
         self.assertDictEqual(prev_dict, storage.all())
