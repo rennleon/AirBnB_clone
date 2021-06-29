@@ -23,13 +23,13 @@ class TestFileStorage(unittest.TestCase):
 
     def test_method_all(self):
         """ Test method 'all' of storage """
-        all = storage.all()
-        empty_dict = dict()
+        obj = BaseModel()
+        key = "{}.{}".format(type(obj).__name__, obj.id)
 
-        if os.path.exists('file.json'):
-            self.assertNotEqual(all, empty_dict)
-        else:
-            self.assertDictEqual(all, empty_dict)
+        all_objs = storage.all()
+
+        self.assertIs(type(all_objs), dict)
+        self.assertIn(key, all_objs.keys())
 
     def test_method_all_with_one_param(self):
         """ Tests for method 'all' with one param """
