@@ -3,10 +3,9 @@
     This module contains test cases for FileStorage
 """
 import json
+import os
 import unittest
 from models import storage
-from datetime import datetime
-from uuid import uuid4
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
@@ -16,27 +15,22 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         """ Setup function for TestFileStorage """
         super().setUp()
+        self.file_path = 'file.json'
 
     def test_instance_creation(self):
         """ Test for FfileStorage instance creation """
         my_storage = FileStorage()
-
         self.assertIs(type(my_storage), FileStorage)
-        self.assertIs(type(storage), FileStorage)
 
     def test_method_all(self):
         """ Test method 'all' of storage """
-        all_objs = storage.all()
+        all = storage.all()
         empty_dict = dict()
 
-        self.assertDictEqual(all_objs, empty_dict)
-
-        obj = BaseModel()
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-
-        self.assertNotEqual(all_objs, empty_dict)
-        self.assertIs(type(all_objs), dict)
-        self.assertIn(key, all_objs.keys())
+        if os.path.exists(self.file_path):
+            self.assertNotEqual(all, empty_dict)
+        else:
+            self.assertDictEqual(all, empty_dict)
 
     def test_method_all_with_one_param(self):
         """ Tests for method 'all' with one param """
@@ -71,8 +65,7 @@ class TestFileStorage(unittest.TestCase):
         all_objs = storage.all()
         storage.new(obj)
 
-        self.assertIs(obj, all_objs[key])
-        self.assertIs(type(all_objs[key]), BaseModel)
+        self.assertEqual(obj, all_objs[key])
 
     def test_method_new_with_one_param(self):
         """ Tests for method 'new' with one param different than expected """
@@ -127,10 +120,12 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save_method(self):
         """ Tests for 'save' method """
-        storage.save()
+        prev_all_objs = storage.all()
 
         obj = BaseModel()
         key = "{}.{}".format(type(obj).__name__, obj.id)
+
+        self.assertIn(key, prev_all_objs.keys())
 
         with open('file.json', mode='r', encoding='utf-8') as file:
             dict_loaded = json.load(file)
@@ -139,33 +134,12 @@ class TestFileStorage(unittest.TestCase):
             self.assertNotIn(key, dict_loaded.keys())
 
         storage.save()
-        all_objs = storage.all()
-        self.assertIn(key, all_objs.keys())
 
         with open('file.json', mode='r', encoding='utf-8') as file:
             dict_loaded = json.load(file)
 
             self.assertIs(type(dict_loaded), dict)
             self.assertIn(key, dict_loaded.keys())
-
-    def test_save_when_instance_is_created_with_kwargs(self):
-        """ Test 'save' method when the JSON file does not exist """
-        id = str(uuid4())
-        now = datetime.now().isoformat()
-
-        my_dict = {'id': id, 'created_at': now, 'updated_at': now}
-
-        obj = BaseModel(**my_dict)
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-
-        storage.save()
-
-        self.assertIs(type(obj), BaseModel)
-        self.assertIs(type(storage.all()), dict)
-        self.assertNotIn(key, storage.all().keys())
-
-        storage.new(obj)
-        self.assertIn(key, storage.all().keys())
 
     def test_save_method_with_one_param(self):
         """ Test for 'save' method with one param """
