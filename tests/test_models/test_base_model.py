@@ -139,9 +139,18 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, regex):
             BaseModel(**my_dict)
 
+    def test_createBaseModel_from_args(self):
+        args = [True, 'Random', 34.2]
+        obj = BaseModel(*args)
+
+        self.assertIs(type(obj.id), str)
+        self.assertIs(type(obj.created_at), datetime)
+        self.assertIs(type(obj.updated_at), datetime)
+
     def test_create_new_attrs(self):
         self.obj.name = 'Jhon'
         self.obj.age = 46
 
         self.assertEqual(self.obj.name, 'Jhon')
         self.assertEqual(self.obj.age, 46)
+
