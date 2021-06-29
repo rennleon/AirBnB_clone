@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 This module defines 'HBNBCommand' class
 """
@@ -131,7 +131,6 @@ class HBNBCommand(cmd.Cmd):
                         value = eval(type(obj.__dict__[attr]).__name__)(value)
                     obj.__setattr__(attr, value)
                     storage.save()
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
