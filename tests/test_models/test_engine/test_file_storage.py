@@ -125,21 +125,10 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save_method(self):
         """ Tests for 'save' method """
-        prev_all_objs = storage.all()
-
         obj = BaseModel()
         key = "{}.{}".format(type(obj).__name__, obj.id)
 
-        self.assertIn(key, prev_all_objs.keys())
-
-        try:
-            with open('file.json', mode='r', encoding='utf-8') as file:
-                dict_loaded = json.load(file)
-
-                self.assertIs(type(dict_loaded), dict)
-                self.assertNotIn(key, dict_loaded.keys())
-        except:
-            pass
+        self.assertIn(key, storage.all())
 
         storage.save()
 
