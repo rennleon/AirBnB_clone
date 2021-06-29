@@ -3,7 +3,6 @@
     This module contains test cases for FileStorage
 """
 import json
-import os
 import unittest
 from models import storage
 from datetime import datetime
@@ -17,14 +16,6 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         """ Setup function for TestFileStorage """
         super().setUp()
-
-    def tearDown(self):
-        """ Tear Down method helps to ensure that the file
-        doesn't exists when test is about to be run """
-        try:
-            os.remove('file.json')
-        except FileNotFoundError:
-            pass
 
     def test_instance_creation(self):
         """ Test for FfileStorage instance creation """
