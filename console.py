@@ -132,5 +132,6 @@ class HBNBCommand(cmd.Cmd):
                     obj.__setattr__(attr, value)
                     storage.save()
 
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
