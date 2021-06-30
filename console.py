@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
             r'^count\(.*\)$': self.do_count,
             r'^show\(.*\)$': self.do_show,
             r'^destroy\(.*\)$': self.do_destroy,
-            r'^update\(.*\)$': self.do_update
+            r'^update\(.*, \{.*\}\)$': self.__update_from_dict
         }
 
         args = line.split('.')
@@ -52,10 +52,18 @@ class HBNBCommand(cmd.Cmd):
                     match = re.search(pattern=pattern, string=text_args)
                     if match:
                         txt_args = str(match.group())
-                        txt_args = txt_args[1:-1].replace(',', ' ')
-                        txt_args = "{} {}".format(args[0], txt_args)
+                        if action == r'^update\(.*, \{.*\}\)$':
+                            params = eval("[" + txt_args[1:-1] + "]")
+                            dct = params[-1]
+                            dct['id'] = params[0]
+                            dct['class'] = args[0]
+                            arg = dct
+                        else:
+                            txt_args = txt_args[1:-1].replace(',', ' ')
+                            txt_args = "{} {}".format(args[0], txt_args)
+                            arg = txt_args
 
-                        return actions[action](txt_args)
+                        return actions[action](arg)
 
         return super().default(line)
 
@@ -147,6 +155,29 @@ class HBNBCommand(cmd.Cmd):
                 elif type(obj).__name__ == arg:
                     objs_list.append(obj.__str__())
             print(objs_list)
+
+    def __update_from_dict(self, dct):
+        """ Updates an instance based on the class name and id
+        by adding or updating an attribute """
+        if not dct.get('class', False):
+            print('** class name missing **')
+        elif dct['class'] not in HBNBCommand.__valid_classes:
+            print('** class doesn\'t exist **')
+        elif not dct.get('id', False):
+            print('** instance id missing **')
+        else:
+            key = "{}.{}".format(dct['class'], dct['id'])
+            if key not in storage.all():
+                print('** no instance found **')
+            else:
+                forbiden_update = ['id', 'created_at', 'updated_at', 'class']
+                for attr, value in dct.items():
+                    if attr not in forbiden_update:
+                        obj = storage.all()[key]
+                        if attr in obj.__dict__:
+                            value = type(obj.__dict__[attr])(value)
+                        obj.__setattr__(attr, value)
+                        storage.save()
 
     def do_update(self, arg):
         """ Updates an instance based on the class name and id
