@@ -2,7 +2,6 @@
 """" Definition of FileStorage class """
 
 import json
-from os import path
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
@@ -40,12 +39,13 @@ class FileStorage():
     def reload(self):
         """ Deserializes a JSON file to '__objects'
         only if '__file_path' exists """
-        if not path.exists(FileStorage.__file_path):
-            return
-
-        with open(FileStorage.__file_path, mode='r', encoding='utf-8') as file:
-            loaded = json.load(file)
-            for obj_dict in loaded.values():
-                cls = obj_dict['__class__']
-                obj_instance = eval(cls)(**obj_dict)
-                self.new(obj_instance)
+        try:
+            path = FileStorage.__file_path
+            with open(path, mode='r', encoding='utf-8') as file:
+                loaded = json.load(file)
+                for obj_dict in loaded.values():
+                    cls = obj_dict['__class__']
+                    obj_instance = eval(cls)(**obj_dict)
+                    self.new(obj_instance)
+        except FileNotFoundError:
+            pass
