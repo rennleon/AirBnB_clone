@@ -33,18 +33,30 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         """ Method called on an input line when
         the command prefix is not recognized """
-        classes = HBNBCommand.__valid_classes
         actions = {
-            'all()': self.do_all
+            'all()': self.do_all,
+            'count()': self.do_count
         }
 
         args = line.split('.')
         if len(args) == 2 and \
-            args[0] in classes and \
+            args[0] in HBNBCommand.__valid_classes and \
                 args[1] in actions.keys():
-            return actions[args[1]](args[0])
+                return actions[args[1]](args[0])
 
         return super().default(line)
+
+    def do_count(self, line):
+        """
+        Retrieves the number of instances of a class: <class name>.count().
+        """
+        args = line.split('.')
+        count = 0
+
+        for obj in storage.all().values():
+            if args[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def emptyline(self):
         """empty line + ENTER shouldn’t execute anything"""
