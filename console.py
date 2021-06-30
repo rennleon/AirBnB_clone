@@ -39,7 +39,6 @@ class HBNBCommand(cmd.Cmd):
             r'^count\(.*\)$': self.do_count,
             r'^show\(.*\)$': self.do_show,
             r'^destroy\(.*\)$': self.do_destroy,
-            r'^update\(.*, \{.*\}\)$': self.__update_from_dict,
             r'^update\(.*\)$': self.do_update
         }
 
@@ -49,22 +48,25 @@ class HBNBCommand(cmd.Cmd):
                 match = re.search(pattern=action, string=args[1])
                 if match:
                     text_args = match.group()
-                    pattern = r'\(.*\)$'
+
+                    # r'^update\(.*, \{.*\}\)$': self.__update_from_dict
+                    pattern = r'\(.*, \{.*\}\)$'
                     match = re.search(pattern=pattern, string=text_args)
                     if match:
                         txt_args = str(match.group())
-                        if action == r'^update\(.*, \{.*\}\)$':
-                            params = eval("[" + txt_args[1:-1] + "]")
-                            dct = params[-1]
-                            dct['id'] = params[0]
-                            dct['class'] = args[0]
-                            arg = dct
-                        else:
+                        params = eval("[" + txt_args[1:-1] + "]")
+                        dct = params[-1]
+                        dct['id'] = params[0]
+                        dct['class'] = args[0]
+                        return self.__update_from_dict(dct)
+                    else:
+                        pattern = r'\(.*\)$'
+                        match = re.search(pattern=pattern, string=text_args)
+                        if match:
+                            txt_args = str(match.group())
                             txt_args = txt_args[1:-1].replace(',', ' ')
                             txt_args = "{} {}".format(args[0], txt_args)
-                            arg = txt_args
-
-                        return actions[action](arg)
+                            return actions[action](txt_args)
 
         return super().default(line)
 
