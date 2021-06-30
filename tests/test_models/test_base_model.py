@@ -14,34 +14,16 @@ mod_doc = models.base_model.__doc__
 class TestBaseModel(unittest.TestCase):
     """testing BaseModel Class"""
 
-    # def test_datetime(self):
-    #     """testing correct datetime assignation
-    #     correct assignation of created_at and updated_at"""
-    #     created_at = datetime.now()
+    # def test_uuid(self):
+    #     """testing uuid"""
     #     instance1 = BaseModel()
-    #     updated_at = datetime.now()
-    #     self.assertEqual(created_at <= instance1.created_at
-    #                      <= updated_at, True)
-    #     time.sleep(1)
-    #     created_at = datetime.now()
     #     instance2 = BaseModel()
-    #     updated_at = datetime.now()
-    #     self.assertTrue(created_at <= instance2.created_at <= updated_at, True)
-    #     self.assertEqual(instance1.created_at, instance1.created_at)
-    #     self.assertEqual(instance2.updated_at, instance2.updated_at)
-    #     self.assertNotEqual(instance1.created_at, instance2.created_at)
-    #     self.assertNotEqual(instance1.updated_at, instance2.updated_at)
+    #     for instance in [instance1, instance2]:
+    #         tuuid = instance.id
+    #         with self.subTest(uuid=tuuid):
+    #             self.assertIs(type(tuuid), str)
 
-    def test_uuid(self):
-        """testing uuid"""
-        instance1 = BaseModel()
-        instance2 = BaseModel()
-        for instance in [instance1, instance2]:
-            tuuid = instance.id
-            with self.subTest(uuid=tuuid):
-                self.assertIs(type(tuuid), str)
-
-        self.assertNotEqual(instance1.id, instance2.id)
+    #     self.assertNotEqual(instance1.id, instance2.id)
 
     def test_dictionary(self):
         """testing to_dict correct funtionality"""
