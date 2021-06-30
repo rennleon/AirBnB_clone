@@ -153,6 +153,29 @@ class TestFileStorage(unittest.TestCase):
             self.assertIs(type(dict_loaded), dict)
             self.assertIn(key, dict_loaded.keys())
 
+    def test_save_method_called_from_BaseModel_instance(self):
+        """ Tests for 'save' method called from an instance of BaseModel """
+        prev_all_objs = storage.all()
+
+        obj = BaseModel()
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+
+        self.assertIn(key, prev_all_objs.keys())
+
+        with open('file.json', mode='r', encoding='utf-8') as file:
+            dict_loaded = json.load(file)
+
+            self.assertIs(type(dict_loaded), dict)
+            self.assertNotIn(key, dict_loaded.keys())
+
+        obj.save()
+
+        with open('file.json', mode='r', encoding='utf-8') as file:
+            dict_loaded = json.load(file)
+
+            self.assertIs(type(dict_loaded), dict)
+            self.assertIn(key, dict_loaded.keys())
+
     def test_save_method_with_one_param(self):
         """ Test for 'save' method with one param """
         regex = 'takes 1 positional argument but 2 were given'
