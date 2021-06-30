@@ -35,11 +35,11 @@ class HBNBCommand(cmd.Cmd):
         """ Method called on an input line when
         the command prefix is not recognized """
         actions = {
-            r'^all\([0-9a-zA-Z, "]*\)$': self.do_all,
-            r'^count\([0-9a-zA-Z, "]*\)$': self.do_count,
-            r'^show\([0-9a-zA-Z, "]*\)$': self.do_show,
-            r'^destroy\([0-9a-zA-Z, "]*\)$': self.do_destroy,
-            r'^update\([0-9a-zA-Z, "]*\)$': self.do_update
+            r'^all\(.*\)$': self.do_all,
+            r'^count\(.*\)$': self.do_count,
+            r'^show\(.*\)$': self.do_show,
+            r'^destroy\(.*\)$': self.do_destroy,
+            r'^update\(.*\)$': self.do_update
         }
 
         args = line.split('.')
@@ -48,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
                 match = re.search(pattern=action, string=args[1])
                 if match:
                     text_args = match.group()
-                    pattern = r'\([0-9a-zA-Z, "]*\)$'
+                    pattern = r'\(.*\)$'
                     match = re.search(pattern=pattern, string=text_args)
                     if match:
                         txt_args = str(match.group())
@@ -108,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args_arr) == 1:
             print('** instance id missing **')
         else:
-            key = "{}.{}".format(args_arr[0], args_arr[1])
+            key = "{}.{}".format(args_arr[0], args_arr[1].replace('"', ''))
             if key not in storage.all():
                 print('** no instance found **')
             else:
@@ -172,7 +172,8 @@ class HBNBCommand(cmd.Cmd):
             else:
                 forbiden_update = ['id', 'created_at', 'updated_at']
                 if args_arr[2] not in forbiden_update:
-                    attr, value = args_arr[2], args_arr[3].replace('"', '')
+                    attr = args_arr[2].replace('"', '')
+                    value = args_arr[3].replace('"', '')
                     obj = storage.all()[key]
                     if attr in obj.__dict__:
                         value = eval(type(obj.__dict__[attr]).__name__)(value)
