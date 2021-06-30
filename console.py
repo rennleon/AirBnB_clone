@@ -173,7 +173,7 @@ class HBNBCommand(cmd.Cmd):
                 forbiden_update = ['id', 'created_at', 'updated_at']
                 if args_arr[2] not in forbiden_update:
                     attr = args_arr[2].replace('"', '')
-                    value = args_arr[3].replace('"', '')
+                    value = eval(args_arr[3])
                     obj = storage.all()[key]
                     if attr in obj.__dict__:
                         value = eval(type(obj.__dict__[attr]).__name__)(value)
