@@ -160,8 +160,9 @@ class HBNBCommand(cmd.Cmd):
             print(objs_list)
 
     def __update_from_dict(self, dct):
-        """ Updates an instance based on the class name and id
-        by adding or updating an attribute """
+        """Updates an instance based on the class name and id
+        by adding or updating an attribute"""
+
         if not dct.get('class', False):
             print('** class name missing **')
         elif dct['class'] not in HBNBCommand.__valid_classes:
@@ -183,10 +184,10 @@ class HBNBCommand(cmd.Cmd):
                         storage.save()
 
     def do_update(self, arg):
-        """ Updates an instance based on the class name and id
-        by adding or updating an attribute
+        """Updates an instance based on the class name
+        and id by adding or updating an attribute
         Usage: update <class name> <id> <attribute name>
-         "<attribute value>" """
+        "<attribute value>\""""
         args_arr = split(arg.strip(), posix=False)
 
         if not arg:
