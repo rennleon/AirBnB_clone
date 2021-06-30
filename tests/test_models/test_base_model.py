@@ -11,38 +11,30 @@ from unittest import mock
 BaseModel = models.base_model.BaseModel
 mod_doc = models.base_model.__doc__
 
-
-# class TestDocs(unittest.TestCase):
-#     """Test documentation and style"""
-#     @classmethod
-#     def setUpClass(self):
-#         """Setup for dosctring"""
-#         self.base_f = inspect.getmembers(BaseModel, inspect.isfunction)
-
 class TestBaseModel(unittest.TestCase):
     """testing BaseModel Class"""
-    @mock.patch('models.storage')
-    def test_instances(self, mock_storage):
-        """Testing that object is correctly created"""
-        instance = BaseModel()
-        self.assertIs(type(instance), BaseModel)
-        instance.name = "Holberton"
-        instance.number = 89
-        expectec_attrs_types = {
-            "id": str,
-            "created_at": datetime,
-            "updated_at": datetime,
-            "name": str,
-            "number": int
-        }
-        # testing types and attr names
-        for attr, types in expectec_attrs_types.items():
-            with self.subTest(attr=attr, typ=types):
-                self.assertIn(attr, instance.__dict__)
-                self.assertIs(type(instance.__dict__[attr]), types)
-        self.assertTrue(mock_storage.new.called)
-        self.assertEqual(instance.name, "Holberton")
-        self.assertEqual(instance.number, 89)
+    # @mock.patch('models.storage')
+    # def test_instances(self, mock_storage):
+    #     """Testing that object is correctly created"""
+    #     instance = BaseModel()
+    #     self.assertIs(type(instance), BaseModel)
+    #     instance.name = "Holberton"
+    #     instance.number = 89
+    #     expectec_attrs_types = {
+    #         "id": str,
+    #         "created_at": datetime,
+    #         "updated_at": datetime,
+    #         "name": str,
+    #         "number": int
+    #     }
+    #     # testing types and attr names
+    #     for attr, types in expectec_attrs_types.items():
+    #         with self.subTest(attr=attr, typ=types):
+    #             self.assertIn(attr, instance.__dict__)
+    #             self.assertIs(type(instance.__dict__[attr]), types)
+    #     self.assertTrue(mock_storage.new.called)
+    #     self.assertEqual(instance.name, "Holberton")
+    #     self.assertEqual(instance.number, 89)
 
     def test_datetime(self):
         """testing correct datetime assignation
