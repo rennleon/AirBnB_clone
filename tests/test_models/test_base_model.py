@@ -4,6 +4,7 @@
 """
 import unittest
 from uuid import uuid4
+from time import sleep
 from datetime import datetime
 from models.base_model import BaseModel
 
@@ -16,6 +17,14 @@ class TestBaseModel(unittest.TestCase):
         super().setUp()
         self.obj = BaseModel()
         self.obj2 = BaseModel()
+
+    def test_unique_id(self):
+        """ Test the creation of unique id's for each instance """
+        obj1 = BaseModel()
+        sleep(0.01)
+        obj2 = BaseModel()
+
+        self.assertNotEqual(obj1.id, obj2.id)
 
     def test_attr_types(self):
         """ Test the types of the default attrs of a BaseModel instance """
@@ -74,6 +83,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.obj.id, objid)
         self.assertEqual(self.obj.created_at, self.obj.updated_at)
 
+        sleep(0.01)
         self.obj.save()
 
         self.assertEqual(self.obj.id, objid)
@@ -104,7 +114,7 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, regex):
             self.obj.save('Ranmod value')
 
-    def test_createBaseModel_from_dictionary_as_kwargs(self):
+    def test_create_BaseModel_from_dictionary_as_kwargs(self):
         """ Test for BaseModel instance creation using kwargs """
         id = str(uuid4())
         now = datetime.now().isoformat()
@@ -121,7 +131,24 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(now, obj1.created_at.isoformat())
         self.assertEqual(now, obj1.updated_at.isoformat())
 
-    def test_createBaseModel_from_dictionary_as_kwargs_empty(self):
+    def test_create_BaseModel_from_dictionary_as_kwargs_valid_attrs(self):
+        """ Test cases for instantiation from kwargs """
+        id = str(uuid4())
+        now = datetime.now().isoformat()
+        my_dict = {
+            'id': id,
+            '__class__': 'dict',
+            'created_at': now,
+            'updated_at': now
+        }
+        obj1 = BaseModel(**my_dict)
+
+        self.assertEqual(obj1.id, id)
+        self.assertIs(obj1.__class__, BaseModel)
+        self.assertEqual(now, obj1.created_at.isoformat())
+        self.assertEqual(now, obj1.updated_at.isoformat())
+
+    def test_create_BaseModel_from_dictionary_as_kwargs_empty(self):
         """ Test for BaseModel instance creation using empty kwargs """
         empty_dict = dict()
         obj1 = BaseModel(**empty_dict)
@@ -131,7 +158,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIs(type(obj1.created_at), datetime)
         self.assertIs(type(obj1.updated_at), datetime)
 
-    def test_createBaseModel_from_dictionary_as_kwargs_diff_fileds(self):
+    def test_create_BaseModel_from_dictionary_as_kwargs_diff_fields(self):
         """ Test for BaseModel instance creation using kwargs """
         my_dict = {
             'name': 'Jhon Smith',
@@ -155,7 +182,7 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaisesRegex(AttributeError, regex):
             obj.updated_at
 
-    def test_createBaseModel_from_dictionary_as_kwargs_wrong_format(self):
+    def test_create_BaseModel_from_dictionary_as_kwargs_wrong_format(self):
         """ Test for BaseModel instance creation wrong kwargs types """
         id = uuid4()
         now = datetime.now()
@@ -170,7 +197,7 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, regex):
             BaseModel(**my_dict)
 
-    def test_createBaseModel_from_args(self):
+    def test_create_BaseModel_from_args(self):
         """ Test for BaseModel instance creation using args """
         args = [True, 'Random', 34.2]
         obj = BaseModel(*args)
