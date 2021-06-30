@@ -3,6 +3,7 @@
 This module defines 'HBNBCommand' class
 """
 import cmd
+import re
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
@@ -34,15 +35,27 @@ class HBNBCommand(cmd.Cmd):
         """ Method called on an input line when
         the command prefix is not recognized """
         actions = {
-            'all()': self.do_all,
-            'count()': self.do_count
+            r'^all\([0-9a-zA-Z, "]*\)$': self.do_all,
+            r'^count\([0-9a-zA-Z, "]*\)$': self.do_count,
+            r'^show\([0-9a-zA-Z, "]*\)$': self.do_show,
+            r'^destroy\([0-9a-zA-Z, "]*\)$': self.do_destroy,
+            r'^update\([0-9a-zA-Z, "]*\)$': self.do_update
         }
 
         args = line.split('.')
-        if len(args) == 2 and \
-            args[0] in HBNBCommand.__valid_classes and \
-                args[1] in actions.keys():
-                return actions[args[1]](args[0])
+        if len(args) == 2:
+            for action in actions.keys():
+                match = re.search(pattern=action, string=args[1])
+                if match:
+                    text_args = match.group()
+                    pattern = r'\([0-9a-zA-Z, "]*\)$'
+                    match = re.search(pattern=pattern, string=text_args)
+                    if match:
+                        txt_args = str(match.group())
+                        txt_args = txt_args[1:-1].replace(',', ' ')
+                        txt_args = "{} {}".format(args[0], txt_args)
+
+                        return actions[action](txt_args)
 
         return super().default(line)
 
@@ -50,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Retrieves the number of instances of a class: <class name>.count().
         """
-        args = line.split('.')
+        args = line.strip().split('.')
         count = 0
 
         for obj in storage.all().values():
@@ -86,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, arg):
         """Prints the string representation of an instance
         based on the class name and id"""
-        args_arr = split(arg, posix=False)
+        args_arr = split(arg.strip(), posix=False)
 
         if not arg:
             print('** class name missing **')
@@ -103,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """ Deletes an instance based on the class name and id """
-        args_arr = split(arg, posix=False)
+        args_arr = split(arg.strip(), posix=False)
 
         if not arg:
             print('** class name missing **')
@@ -121,6 +134,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """ Prints all string representation of all instances """
+        arg = arg.strip()
         objs_dict = storage.all()
 
         if arg and arg not in HBNBCommand.__valid_classes:
@@ -139,7 +153,7 @@ class HBNBCommand(cmd.Cmd):
         by adding or updating an attribute
         Usage: update <class name> <id> <attribute name>
          "<attribute value>" """
-        args_arr = split(arg, posix=False)
+        args_arr = split(arg.strip(), posix=False)
 
         if not arg:
             print('** class name missing **')
