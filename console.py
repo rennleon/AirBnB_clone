@@ -39,8 +39,8 @@ class HBNBCommand(cmd.Cmd):
             r'^count\(.*\)$': self.do_count,
             r'^show\(.*\)$': self.do_show,
             r'^destroy\(.*\)$': self.do_destroy,
-            r'^update\(.*\)$': self.do_update,
-            r'^update\(.*, \{.*\}\)$': self.__update_from_dict
+            r'^update\(.*, \{.*\}\)$': self.__update_from_dict,
+            r'^update\(.*\)$': self.do_update
         }
 
         args = line.split('.')
