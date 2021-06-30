@@ -14,8 +14,7 @@ mod_doc = models.base_model.__doc__
 class TestBaseModel(unittest.TestCase):
     """testing BaseModel Class"""
 
-    @mock.patch('models.storage')
-    def test_save_method(self, mock_storage):
+    def test_save_method(self):
         """test save method and if it updates
         "updated_at" calling storage.save"""
         instance4 = BaseModel()
@@ -26,4 +25,3 @@ class TestBaseModel(unittest.TestCase):
         new_updated_at = instance4.updated_at
         self.assertNotEqual(updated_at, new_updated_at)
         self.assertEqual(created_at, new_created_at)
-        self.assertTrue(mock_storage.save.called)
