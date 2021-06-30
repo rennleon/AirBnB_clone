@@ -2,10 +2,11 @@
 """
     This module contains test cases for base_case.py
 """
-import unittest
 import pep8
+import unittest
 from uuid import uuid4
 from time import sleep
+from unittest import mock
 from datetime import datetime
 from models.base_model import BaseModel
 
@@ -90,18 +91,32 @@ class TestBaseModel(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, regex):
             self.obj.to_dict('Ranmod value')
 
-    def test_save_method(self):
-        """ Test save method """
-        objid = self.obj.id
-        self.assertEqual(self.obj.id, objid)
-        self.assertEqual(self.obj.created_at, self.obj.updated_at)
+    @mock.patch('models.storage')
+    def test_save_method(self, mock_storage):
+        """test save method and if it updates
+        "updated_at" calling storage.save"""
+        instance4 = BaseModel()
+        created_at = instance4.created_at
+        updated_at = instance4.updated_at
+        instance4.save()
+        new_created_at = instance4.created_at
+        new_updated_at = instance4.updated_at
+        self.assertNotEqual(updated_at, new_updated_at)
+        self.assertEqual(created_at, new_created_at)
+        self.assertTrue(mock_storage.save.called)
 
-        sleep(0.01)
-        self.obj.save()
+    # def test_save_method(self):
+    #     """ Test save method """
+    #     objid = self.obj.id
+    #     self.assertEqual(self.obj.id, objid)
+    #     self.assertEqual(self.obj.created_at, self.obj.updated_at)
 
-        self.assertEqual(self.obj.id, objid)
-        self.assertNotEqual(self.obj.created_at, self.obj.updated_at)
-        self.assertLess(self.obj.created_at, self.obj.updated_at)
+    #     sleep(0.01)
+    #     self.obj.save()
+
+    #     self.assertEqual(self.obj.id, objid)
+    #     self.assertNotEqual(self.obj.created_at, self.obj.updated_at)
+    #     self.assertLess(self.obj.created_at, self.obj.updated_at)
 
     def test_save_method_with_one_param(self):
         """ Test save method by passing one param """
