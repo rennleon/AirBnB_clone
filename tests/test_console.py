@@ -137,6 +137,14 @@ class test_command_create(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd('create MyModel'))
             self.assertEqual(msg, output.getvalue().strip())
 
+    def test_create_id(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('create BaseModel'))
+            test_id1 = output.getvalue().strip()
+            self.assertFalse(HBNBCommand().onecmd('create BaseModel'))
+            test_id2 = output.getvalue().strip()
+            self.assertNotEqual(test_id1, test_id2)
+
 
 class test_command_show(unittest.TestCase):
     """Test for command show in the console"""
