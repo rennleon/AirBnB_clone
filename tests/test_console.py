@@ -27,7 +27,18 @@ class test_console(unittest.TestCase):
 
 
 class test_other_classes(unittest.TestCase):
-    """Test for classes in the console"""
+
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
 
     def test_command_empty_line(self):
         """Test for the empty line"""
@@ -56,6 +67,18 @@ class test_other_classes(unittest.TestCase):
 
 class test_command_all(unittest.TestCase):
     """Test for command all in the console"""
+
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
 
     def test_commad_all(self):
         """Test for command all in the console"""
@@ -155,6 +178,18 @@ class test_command_help(unittest.TestCase):
 class test_command_create(unittest.TestCase):
     """Test for command create in the console"""
 
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
     def test_create_name_missing(self):
         """Test for command create with class name missing """
         msg = '** class name missing **'
@@ -181,6 +216,18 @@ class test_command_create(unittest.TestCase):
 
 class test_command_show(unittest.TestCase):
     """Test for command show in the console"""
+
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
 
     def test_show_name_missing(self):
         """Test for command show with class name missing"""

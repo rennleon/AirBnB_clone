@@ -13,10 +13,22 @@ from models.engine.file_storage import FileStorage
 
 class TestFileStorage(unittest.TestCase):
     """" Test cases class for FileStorage """
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
     def setUp(self):
         """ Setup function for TestFileStorage """
         super().setUp()
-        self.file_path = 'file.json'
+        self.file_path = 'temp'
 
     def test_pep8_file_storage(self):
         """pep8 test.
@@ -37,12 +49,8 @@ class TestFileStorage(unittest.TestCase):
     def test_method_all(self):
         """ Test method 'all' of storage """
         all = storage.all()
-        empty_dict = dict()
 
-        if os.path.exists(self.file_path):
-            self.assertNotEqual(all, empty_dict)
-        else:
-            self.assertDictEqual(all, empty_dict)
+        self.assertEqual(type(all), dict)
 
     def test_method_all_with_one_param(self):
         """ Tests for method 'all' with one param """
@@ -139,11 +147,12 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        with open('file.json', mode='r', encoding='utf-8') as file:
-            dict_loaded = json.load(file)
+        if os.path.exists(self.file_path):
+            with open(self.file_path, mode='r', encoding='utf-8') as file:
+                dict_loaded = json.load(file)
 
-            self.assertIs(type(dict_loaded), dict)
-            self.assertNotIn(key, dict_loaded.keys())
+                self.assertIs(type(dict_loaded), dict)
+                self.assertNotIn(key, dict_loaded.keys())
 
         storage.save()
 
@@ -162,11 +171,12 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        with open('file.json', mode='r', encoding='utf-8') as file:
-            dict_loaded = json.load(file)
+        if os.path.exists(self.file_path):
+            with open(self.file_path, mode='r', encoding='utf-8') as file:
+                dict_loaded = json.load(file)
 
-            self.assertIs(type(dict_loaded), dict)
-            self.assertNotIn(key, dict_loaded.keys())
+                self.assertIs(type(dict_loaded), dict)
+                self.assertNotIn(key, dict_loaded.keys())
 
         obj.save()
 

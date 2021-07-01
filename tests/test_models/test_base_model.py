@@ -2,6 +2,7 @@
 """
     This module contains test cases for base_case.py
 """
+import os
 import pep8
 import unittest
 from uuid import uuid4
@@ -13,9 +14,19 @@ from models.base_model import BaseModel
 
 class TestBaseModel(unittest.TestCase):
     """" Test cases class for Base Model """
-    pass
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
 
-    def setUp(self) -> None:
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
+    def setUp(self):
         """ Setup function to append the objects to the test """
         super().setUp()
         self.obj = BaseModel()
