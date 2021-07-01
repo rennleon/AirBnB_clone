@@ -94,7 +94,7 @@ class test_command_all(unittest.TestCase):
 
     def test_command_all_advanced(self):
         """Test for command all with advanced format"""
-            
+
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             self.assertFalse(HBNBCommand().onecmd("BaseModel.all()"))
@@ -123,6 +123,7 @@ class test_command_all(unittest.TestCase):
             HBNBCommand().onecmd("create Review")
             self.assertFalse(HBNBCommand().onecmd("Review.all()"))
             self.assertIn("Review", output.getvalue().strip())
+
 
 class test_command_help(unittest.TestCase):
     """Test for command help in the console"""
