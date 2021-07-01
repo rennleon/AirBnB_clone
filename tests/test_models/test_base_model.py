@@ -32,6 +32,11 @@ class TestBaseModel(unittest.TestCase):
         self.obj = BaseModel()
         self.obj2 = BaseModel()
 
+    def tearDown(self):
+        super().tearDown()
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+
     def test_pep8_base_model(self):
         """pep8 test.
         Makes sure the Python code is up to the pep8 standard.
@@ -111,6 +116,7 @@ class TestBaseModel(unittest.TestCase):
         sleep(0.01)
         self.obj.save()
 
+        self.assertTrue(os.path.exists('file.json'))
         self.assertEqual(self.obj.id, objid)
         self.assertNotEqual(self.obj.created_at, self.obj.updated_at)
         self.assertLess(self.obj.created_at, self.obj.updated_at)
