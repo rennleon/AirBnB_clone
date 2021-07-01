@@ -283,7 +283,7 @@ class test_command_show(unittest.TestCase):
             HBNBCommand().onecmd('create User')
             test_id = output.getvalue().strip()
             parameter_1 = 'show User {}'.format(test_id)
-            parameter_2 = 'User.show ("{}")'.format(test_id)
+            parameter_2 = 'User.show("{}")'.format(test_id)
             comm_show1 = HBNBCommand().onecmd(parameter_1)
             comm_show2 = HBNBCommand().onecmd(parameter_2)
             self.assertEqual(comm_show1, comm_show2)
@@ -309,41 +309,41 @@ class test_command_show(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('BaseModel.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('BaseModel.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create User")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('User.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('User.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('Place.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('Place.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create City")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('City.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('City.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create State")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('State.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('State.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Review")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('Review.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('Review.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Amenity")
             test_id = output.getvalue().strip()
-            HBNBCommand().onecmd('Amenity.show("{}")'.format(test_id))
+            HBNBCommand().onecmd('Amenity.show({})'.format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
