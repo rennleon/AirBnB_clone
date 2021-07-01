@@ -3,8 +3,9 @@
 This module containes test cases in the console
 """
 import sys
-import os
+
 import unittest
+import os
 from models.base_model import BaseModel
 from models.engine import file_storage
 from console import HBNBCommand
@@ -19,11 +20,6 @@ class test_console(unittest.TestCase):
         """ Test for the name in the prompt"""
         self.assertEqual('(hbnb) ', HBNBCommand.prompt)
 
-    def test_command_empty_line(self):
-        """Test for the empty line"""
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.assertEqual("", f.getvalue().strip())
-
     def test_commnad_quit(self):
         """Test for command quit in the console"""
         self.assertTrue(HBNBCommand().onecmd('quit'))
@@ -31,6 +27,24 @@ class test_console(unittest.TestCase):
     def test_command_EOF(self):
         """Test for command EOF in the console"""
         self.assertTrue(HBNBCommand().onecmd('EOF'))
+
+
+class test_other_classes(unittest.TestCase):
+
+    @classmethod
+    def setUp(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDown(cls):
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
+    def test_command_empty_line(self):
+        """Test for the empty line"""
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertEqual("", output.getvalue().strip())
 
     def test_commad_all(self):
         """Test for command all in the console"""
@@ -142,6 +156,16 @@ class test_command_help(unittest.TestCase):
 class test_command_create(unittest.TestCase):
     """Test for command create in the console"""
 
+    @classmethod
+    def setUp(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDown(cls):
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
     def test_create_name_missing(self):
         """Test for command create with class name missing """
         msg = '** class name missing **'
@@ -168,6 +192,16 @@ class test_command_create(unittest.TestCase):
 class test_command_show(unittest.TestCase):
     """Test for command show in the console"""
 
+    @classmethod
+    def setUp(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDown(cls):
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
     def test_show_name_missing(self):
         """Test for command show with class name missing"""
         msg = '** class name missing **'
@@ -193,10 +227,10 @@ class test_command_show(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as output:
             HBNBCommand().onecmd('create User')
             test_id = output.getvalue().strip()
-            txt_1 = 'show User {}'.format(test_id)
-            txt_2 = 'User.show ("{}")'.format(test_id)
-            comm_show1 = HBNBCommand().onecmd(txt_1)
-            comm_show2 = HBNBCommand().onecmd(txt_2)
+            parameter_1 = 'show User {}'.format(test_id)
+            parameter_2 = 'User.show ("{}")'.format(test_id)
+            comm_show1 = HBNBCommand().onecmd(parameter_1)
+            comm_show2 = HBNBCommand().onecmd(parameter_2)
             self.assertEqual(comm_show1, comm_show2)
 
     def test_show_invalid_id(self):
@@ -209,7 +243,7 @@ class test_command_show(unittest.TestCase):
     def test_show_more_than_one_arg(self):
         """Test for command show with invalid id """
         msg = '** no instance found **'
-        txt_1 = 'show BaseModel 34 other attr'
+        parameter_1 = 'show BaseModel 34 other attr'
         with patch('sys.stdout', new=StringIO()) as output:
-            self.assertFalse(HBNBCommand().onecmd(txt_1))
+            self.assertFalse(HBNBCommand().onecmd(parameter_1))
             self.assertEqual(msg, output.getvalue().strip())
