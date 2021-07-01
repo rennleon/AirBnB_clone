@@ -302,3 +302,48 @@ class test_command_show(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(parameter_1))
             self.assertEqual(msg, output.getvalue().strip())
+
+    def test_command_classes(self):
+        """Tests for command show with advanced format"""
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create BaseModel")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('BaseModel.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create User")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('User.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Place")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('Place.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create City")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('City.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create State")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('State.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Review")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('Review.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Amenity")
+            test_id = output.getvalue().strip()
+            HBNBCommand().onecmd('Amenity.show("{}")'.format(test_id))
+            self.assertIn(test_id, output.getvalue().strip())
