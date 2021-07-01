@@ -365,3 +365,85 @@ class test_command_show(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("Amenity.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
+
+
+class test_command_destroy(unittest.TestCase):
+    """Test for command destroy in the console"""
+
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
+    def test_command_destroy_advanced(self):
+        """Test for command destroy with advanced format"""
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create BaseModel")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("BaseModel.destroy({})".format(test_id))
+            HBNBCommand().onecmd("BaseModel.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create User")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("User.destroy({})".format(test_id))
+            HBNBCommand().onecmd("User.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Place")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("Place.destroy({})".format(test_id))
+            HBNBCommand().onecmd("Place.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create City")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("City.destroy({})".format(test_id))
+            HBNBCommand().onecmd("City.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create State")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("State.show({})".format(test_id))
+            HBNBCommand().onecmd("State.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Review")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("Review.show({})".format(test_id))
+            HBNBCommand().onecmd("Review.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Amenity")
+            test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("Amenity.show({})".format(test_id))
+            HBNBCommand().onecmd("Amenity.all()")
+            self.assertIsNot(test_id, output.getvalue().strip())
