@@ -392,7 +392,7 @@ class test_command_destroy(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("BaseModel.destroy({})".format(test_id))
             HBNBCommand().onecmd("BaseModel.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create User")
@@ -401,7 +401,7 @@ class test_command_destroy(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("User.destroy({})".format(test_id))
             HBNBCommand().onecmd("User.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
@@ -410,7 +410,7 @@ class test_command_destroy(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("Place.destroy({})".format(test_id))
             HBNBCommand().onecmd("Place.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create City")
@@ -419,31 +419,31 @@ class test_command_destroy(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("City.destroy({})".format(test_id))
             HBNBCommand().onecmd("City.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create State")
             test_id = output.getvalue().strip()
 
         with patch("sys.stdout", new=StringIO()) as output:
-            HBNBCommand().onecmd("State.show({})".format(test_id))
+            HBNBCommand().onecmd("State.destroy({})".format(test_id))
             HBNBCommand().onecmd("State.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Review")
             test_id = output.getvalue().strip()
 
         with patch("sys.stdout", new=StringIO()) as output:
-            HBNBCommand().onecmd("Review.show({})".format(test_id))
+            HBNBCommand().onecmd("Review.destroy({})".format(test_id))
             HBNBCommand().onecmd("Review.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Amenity")
             test_id = output.getvalue().strip()
 
         with patch("sys.stdout", new=StringIO()) as output:
-            HBNBCommand().onecmd("Amenity.show({})".format(test_id))
+            HBNBCommand().onecmd("Amenity.destroy({})".format(test_id))
             HBNBCommand().onecmd("Amenity.all()")
-            self.assertIsNot(test_id, output.getvalue().strip())
+            self.assertNotIn(test_id, output.getvalue().strip())
