@@ -470,12 +470,11 @@ class test_update_command(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
-            parameter = "update BaseModel {} {} {}"
-            up_command = parameter.format(test_id, 'first_name', 'Jhon')
+            ptr = "update BaseModel {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
 
         with patch("sys.stdout", new=StringIO()) as output:
-            parameter = "BaseModel.update({}, {}, '{}')"
-            HBNBCommand().onecmd(parameter)
-            up_command = parameter.format(test_id, 'first_name', 'Betty')
+            ptr = "BaseModel.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Betty'))
             HBNBCommand().onecmd("BaseModel.show({})".format(test_id))
-            self.assertNotIn("Jhon", output.getvalue().strip())
+            self.assertNotIn('Jhon', output.getvalue().strip())
