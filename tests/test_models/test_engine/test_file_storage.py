@@ -155,9 +155,6 @@ class TestFileStorage(unittest.TestCase):
         try:
             with open('file.json', mode='r', encoding='utf-8') as file:
                 dict_loaded = json.load(file)
-
-                self.assertIs(type(dict_loaded), dict)
-                self.assertNotIn(key, dict_loaded.keys())
         except FileNotFoundError:
             pass
 
