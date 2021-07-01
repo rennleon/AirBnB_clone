@@ -91,11 +91,13 @@ class test_command_all(unittest.TestCase):
             self.assertEqual(msg, output.getvalue().strip())
 
         with patch('sys.stdout', new=StringIO()) as output:
-            parameter_1 = 'all BaseModel'
-            parameter_2 = 'BaseModel.all()'
-            test_bm1 = self.assertFalse(HBNBCommand().onecmd(parameter_1))
-            test_bm2 = self.assertFalse(HBNBCommand().onecmd(parameter_2))
-            self.assertEqual(test_bm1, test_bm2)
+            parameter_1 = 'BaseModel.all()'
+            parameter_2 =  'all'
+            self.assertFalse(HBNBCommand().onecmd(parameter_1))
+            test_bm1 = output.getvalue().strip()
+            self.assertFalse(HBNBCommand().onecmd(parameter_2))
+            test_bm2 = output.getvalue().strip()
+            self.assertIn(test_bm1, test_bm2)
 
 
 class test_command_help(unittest.TestCase):
