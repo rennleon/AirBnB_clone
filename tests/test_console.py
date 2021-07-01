@@ -92,34 +92,37 @@ class test_command_all(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd('MyModel.all()'))
             self.assertEqual(msg, output.getvalue().strip())
 
-    def test_command_all_advance(self):
+    def test_command_all_advanced(self):
+        """Test for command all with advanced format"""
+            
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
-            HBNBCommand().onecmd("create User")
-            HBNBCommand().onecmd("create State")
-            HBNBCommand().onecmd("create Place")
-            HBNBCommand().onecmd("create City")
-            HBNBCommand().onecmd("create Amenity")
-            HBNBCommand().onecmd("create Review")
-        with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("BaseModel.all()"))
             self.assertIn("BaseModel", output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create User")
             self.assertFalse(HBNBCommand().onecmd("User.all()"))
             self.assertIn("User", output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create State")
             self.assertFalse(HBNBCommand().onecmd("State.all()"))
             self.assertIn("State", output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create City")
             self.assertFalse(HBNBCommand().onecmd("City.all()"))
             self.assertIn("City", output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Amenity")
             self.assertFalse(HBNBCommand().onecmd("Amenity.all()"))
             self.assertIn("Amenity", output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Place")
             self.assertFalse(HBNBCommand().onecmd("Place.all()"))
             self.assertIn("Place", output.getvalue().strip())
-
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Review")
+            self.assertFalse(HBNBCommand().onecmd("Review.all()"))
+            self.assertIn("Review", output.getvalue().strip())
 
 class test_command_help(unittest.TestCase):
     """Test for command help in the console"""
