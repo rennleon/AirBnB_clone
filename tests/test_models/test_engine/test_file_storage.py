@@ -152,12 +152,6 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        try:
-            with open('file.json', mode='r', encoding='utf-8') as file:
-                dict_loaded = json.load(file)
-        except FileNotFoundError:
-            pass
-
         storage.save()
 
         with open('file.json', mode='r', encoding='utf-8') as file:
@@ -221,6 +215,16 @@ class TestFileStorage(unittest.TestCase):
         storage.reload()
 
         self.assertDictEqual(prev_dict, storage.all())
+
+    def test_reload_file_doesnt_exist(self):
+        """ Test reload on non existent 'file.json' """
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'file.bk')
+
+        storage.reload()
+
+        if os.path.exists('file.bk'):
+            os.rename('file.bk', 'file.json')
 
     def test_reload_method_with_one_param(self):
         """ Tests for reload method passing one param """
