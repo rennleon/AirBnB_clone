@@ -42,6 +42,25 @@ class test_console(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd('MyModel.all()'))
             self.assertEqual(msg, output.getvalue().strip())
 
+    def test_command_classes(self):
+        """Checks he classes in the console"""
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create BaseModel")
+            HBNBCommand().onecmd("create User")
+            HBNBCommand().onecmd("create State")
+            HBNBCommand().onecmd("create Place")
+            HBNBCommand().onecmd("create City")
+            HBNBCommand().onecmd("create Amenity")
+            HBNBCommand().onecmd("create Review")
+            HBNBCommand().onecmd('.all()')
+            self.assertIn("BaseModel", output.getvalue().strip())
+            self.assertIn("User", output.getvalue().strip())
+            self.assertIn("State", output.getvalue().strip())
+            self.assertIn("Place", output.getvalue().strip())
+            self.assertIn("City", output.getvalue().strip())
+            self.assertIn("Amenity", output.getvalue().strip())
+            self.assertIn("Review", output.getvalue().strip())
+
 
 class test_command_help(unittest.TestCase):
     """Test for command help in the console"""
