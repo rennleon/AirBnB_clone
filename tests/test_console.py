@@ -478,3 +478,75 @@ class test_update_command(unittest.TestCase):
             HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Betty'))
             HBNBCommand().onecmd("BaseModel.show({})".format(test_id))
             self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create User")
+            test_id = output.getvalue().strip()
+            ptr = "update User {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "User.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Tyrone'))
+            HBNBCommand().onecmd("User.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Place")
+            test_id = output.getvalue().strip()
+            ptr = "update Place {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "Place.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Austin'))
+            HBNBCommand().onecmd("Place.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create City")
+            test_id = output.getvalue().strip()
+            ptr = "update City {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "City.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Pablo'))
+            HBNBCommand().onecmd("Place.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create State")
+            test_id = output.getvalue().strip()
+            ptr = "update State {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "State.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Betty'))
+            HBNBCommand().onecmd("State.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Review")
+            test_id = output.getvalue().strip()
+            ptr = "update Review {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "Review.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Pocoyo'))
+            HBNBCommand().onecmd("Review.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            HBNBCommand().onecmd("create Amenity")
+            test_id = output.getvalue().strip()
+            ptr = "update Amenity {} {} '{}'"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Jhon'))
+
+        with patch("sys.stdout", new=StringIO()) as output:
+            ptr = "Amenity.update({}, {}, '{}')"
+            HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Homero'))
+            HBNBCommand().onecmd("Amenity.show({})".format(test_id))
+            self.assertNotIn('Jhon', output.getvalue().strip())
