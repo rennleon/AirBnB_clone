@@ -188,3 +188,28 @@ class test_command_show(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd('show BaseModel'))
             self.assertEqual(msg, output.getvalue().strip())
+
+    def test_show_id(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create User')
+            test_id = output.getvalue().strip()
+            txt_1 = 'show User {}'.format(test_id)
+            txt_2 = 'User.show ("{}")'.format(test_id)
+            comm_show1 = HBNBCommand().onecmd(txt_1)
+            comm_show2 = HBNBCommand().onecmd(txt_2)
+            self.assertEqual(comm_show1, comm_show2)
+
+    def test_show_invalid_id(self):
+        """Test for command show with invalid id """
+        msg = '** no instance found **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('show BaseModel 34'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+    def test_show_more_than_one_arg(self):
+        """Test for command show with invalid id """
+        msg = '** no instance found **'
+        txt_1 = 'show BaseModel 34 other attr'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd(txt_1))
+            self.assertEqual(msg, output.getvalue().strip())
