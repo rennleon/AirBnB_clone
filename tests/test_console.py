@@ -5,6 +5,8 @@ This module containes test cases in the console
 import sys
 import os
 import unittest
+from models.base_model import BaseModel
+from models.engine import file_storage
 from console import HBNBCommand
 from io import StringIO
 from unittest.mock import patch
@@ -29,6 +31,20 @@ class test_console(unittest.TestCase):
     def test_command_EOF(self):
         """Test for command EOF in the console"""
         self.assertTrue(HBNBCommand().onecmd('EOF'))
+
+    def test_commad_all(self):
+        """Test for command all in the console"""
+        msg = '** class doesn\'t exist **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('all MyModel'))
+            self.assertEqual(msg, output.getvalue().strip())
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('MyModel.all()'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+
+class test_command_help(unittest.TestCase):
+    """Test for command help in the console"""
 
     def test_command_help_EOF(self):
         """Test for command help 'EOF' in the console"""
@@ -102,3 +118,46 @@ class test_console(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd('help update'))
             self.assertEqual(com_h, output.getvalue().strip())
+
+
+class test_command_create(unittest.TestCase):
+    """Test for command create in the console"""
+
+    def test_create_name_missing(self):
+        """Test for command create with class name missing """
+        msg = '** class name missing **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('create'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+    def test_create_name_exist(self):
+        """Test for command create with class invalid"""
+        msg = '** class doesn\'t exist **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('create MyModel'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+
+class test_command_show(unittest.TestCase):
+    """Test for command show in the console"""
+
+    def test_show_name_missing(self):
+        """Test for command show with class name missing"""
+        msg = '** class name missing **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('show'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+    def test_show_name_exist(self):
+        """Test for command show with class invalid"""
+        msg = '** class doesn\'t exist **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('show MyModel'))
+            self.assertEqual(msg, output.getvalue().strip())
+
+    def test_show_id_missing(self):
+        """Test for command show with id missing"""
+        msg = '** instance id missing **'
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd('show BaseModel'))
+            self.assertEqual(msg, output.getvalue().strip())
