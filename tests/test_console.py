@@ -321,35 +321,47 @@ class test_command_show(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create User")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("User.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("Place.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create City")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("City.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create State")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("State.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Review")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("Review.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Amenity")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("Amenity.show({})".format(test_id))
             self.assertIn(test_id, output.getvalue().strip())
