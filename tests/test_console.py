@@ -309,6 +309,8 @@ class test_command_show(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
+
+        with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("BaseModel.show({})".format(test_id))
             com_1 = output.getvalue()
             self.assertIn(test_id, com_1)
