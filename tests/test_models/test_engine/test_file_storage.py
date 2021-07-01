@@ -44,7 +44,11 @@ class TestFileStorage(unittest.TestCase):
 
     def test_FileStorage_class_attr_types(self):
         """ Test FileStorage attribute class types """
-        self.assertIs(type(FileStorage._FileStorage__file_path), str)
+        file_path = FileStorage._FileStorage__file_path
+        objects = FileStorage._FileStorage__objects
+
+        self.assertIs(type(file_path), str)
+        self.assertIs(type(objects), dict)
 
     def test_instance_creation(self):
         """ Test for FfileStorage instance creation """
@@ -248,3 +252,14 @@ class TestFileStorage(unittest.TestCase):
             storage.reload({'id': 123})
         with self.assertRaises(TypeError):
             storage.reload('Ranmod value')
+
+    def test_all__objects_not_dict(self):
+        """ Test all when '__objects' is not a dictionary """
+        objs = FileStorage._FileStorage__objects
+
+        FileStorage._FileStorage__objects = []
+        with self.assertRaises(TypeError):
+            BaseModel()
+            storage.save()
+
+        FileStorage._FileStorage__objects = objs
