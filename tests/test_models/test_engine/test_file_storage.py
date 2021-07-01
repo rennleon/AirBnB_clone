@@ -17,9 +17,12 @@ class TestFileStorage(unittest.TestCase):
     def setUpClass(cls):
         if os.path.exists('file.json'):
             os.rename('file.json', 'temp')
+        FileStorage._FileStorage__objects = {}
 
     @classmethod
     def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
         if os.path.exists('temp'):
             os.rename('temp', 'file.json')
 
@@ -27,12 +30,6 @@ class TestFileStorage(unittest.TestCase):
         """ Setup function for TestFileStorage """
         super().setUp()
         self.file_path = 'temp'
-        FileStorage._FileStorage__objects = {}
-
-    def tearDown(self):
-        super().tearDown()
-        if os.path.exists('file.json'):
-            os.remove('file.json')
 
     def test_pep8_file_storage(self):
         """pep8 test.
@@ -44,6 +41,10 @@ class TestFileStorage(unittest.TestCase):
             check.total_errors, 0,
             "Found code style errors (and warnings)."
         )
+
+    def test_FileStorage_class_attr_types(self):
+        """ Test FileStorage attribute class types """
+        self.assertIs(type(FileStorage._FileStorage__file_path), str)
 
     def test_instance_creation(self):
         """ Test for FfileStorage instance creation """
@@ -151,12 +152,14 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIn(key, prev_all_objs.keys())
 
-        if os.path.exists(self.file_path):
-            with open(self.file_path, mode='r', encoding='utf-8') as file:
+        try:
+            with open('file.json', mode='r', encoding='utf-8') as file:
                 dict_loaded = json.load(file)
 
                 self.assertIs(type(dict_loaded), dict)
                 self.assertNotIn(key, dict_loaded.keys())
+        except FileNotFoundError:
+            pass
 
         storage.save()
 
