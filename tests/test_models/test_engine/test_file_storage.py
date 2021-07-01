@@ -20,8 +20,6 @@ class TestFileStorage(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        if os.path.exists('file.json'):
-            os.remove('file.json')
         if os.path.exists('temp'):
             os.rename('temp', 'file.json')
 
@@ -29,6 +27,12 @@ class TestFileStorage(unittest.TestCase):
         """ Setup function for TestFileStorage """
         super().setUp()
         self.file_path = 'temp'
+        FileStorage._FileStorage__objects = {}
+
+    def tearDown(self):
+        super().tearDown()
+        if os.path.exists('file.json'):
+            os.remove('file.json')
 
     def test_pep8_file_storage(self):
         """pep8 test.
