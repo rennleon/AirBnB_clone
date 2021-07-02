@@ -40,7 +40,7 @@ class test_other_classes(unittest.TestCase):
         if os.path.exists('temp'):
             os.rename('temp', 'file.json')
 
-    def test_command_empty_line(self):
+    def test_commnad_empty_line(self):
         """Test for the empty line"""
         with patch('sys.stdout', new=StringIO()) as output:
             HBNBCommand().onecmd("")
