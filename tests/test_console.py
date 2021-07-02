@@ -555,6 +555,7 @@ class test_update_command(unittest.TestCase):
 
 
 class test_count_command(unittest.TestCase):
+    """Test for count command in the console"""
 
     @classmethod
     def setUpClass(cls):
@@ -570,6 +571,7 @@ class test_count_command(unittest.TestCase):
             os.rename('temp', 'file.json')
 
     def test_command_classes(self):
+        """Test for number of instances of a class"""
         with patch('sys.stdout', new=StringIO()) as output:
             HBNBCommand().onecmd('create BaseModel')
 
@@ -615,5 +617,13 @@ class test_count_command(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as output:
             HBNBCommand().onecmd('Amenity.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create Review')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('Review.count()')
             obj_count = output.getvalue().strip()
             self.assertEqual('1', obj_count)
