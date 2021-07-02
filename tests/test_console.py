@@ -4,6 +4,7 @@ This module containes test cases in the console
 """
 import unittest
 import os
+from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from console import HBNBCommand
 from io import StringIO
@@ -551,3 +552,68 @@ class test_update_command(unittest.TestCase):
             HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Homero'))
             HBNBCommand().onecmd("Amenity.show({})".format(test_id))
             self.assertNotIn('Jhon', output.getvalue().strip())
+
+
+class test_count_command(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        if os.path.exists('file.json'):
+            os.rename('file.json', 'temp')
+        FileStorage._FileStorage__objects = dict()
+
+    @classmethod
+    def tearDownClass(cls):
+        if os.path.exists('file.json'):
+            os.remove('file.json')
+        if os.path.exists('temp'):
+            os.rename('temp', 'file.json')
+
+    def test_command_classes(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create BaseModel')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('BaseModel.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create User')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('User.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create City')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('City.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create Place')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('Place.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create State')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('State.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('create Amenity')
+
+        with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd('Amenity.count()')
+            obj_count = output.getvalue().strip()
+            self.assertEqual('1', obj_count)
