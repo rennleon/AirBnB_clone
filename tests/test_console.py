@@ -512,7 +512,7 @@ class test_update_command(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             ptr = "City.update({}, {}, '{}')"
             HBNBCommand().onecmd(ptr.format(test_id, 'first_name', 'Pablo'))
-            HBNBCommand().onecmd("Place.show({})".format(test_id))
+            HBNBCommand().onecmd("City.show({})".format(test_id))
             self.assertNotIn('Jhon', output.getvalue().strip())
 
         with patch("sys.stdout", new=StringIO()) as output:
