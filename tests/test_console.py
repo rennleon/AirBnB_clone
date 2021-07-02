@@ -43,6 +43,7 @@ class test_other_classes(unittest.TestCase):
     def test_command_empty_line(self):
         """Test for the empty line"""
         with patch('sys.stdout', new=StringIO()) as output:
+            HBNBCommand().onecmd("")
             self.assertEqual("", output.getvalue().strip())
 
     def test_command_classes(self):
