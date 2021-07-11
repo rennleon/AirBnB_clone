@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -12,8 +13,8 @@ body {
 
 .container {
     max-width: 1000px;
+    display: block;
     margin: auto;
     margin-top: 30px;
     margin-bottom: 30px;
-    overflow-x: hidden;
 }
